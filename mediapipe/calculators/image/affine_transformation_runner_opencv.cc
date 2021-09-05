@@ -145,7 +145,7 @@ class OpenCvRunner
                    /*flags=*/cv::INTER_LINEAR | cv::WARP_INVERSE_MAP,
                    GetBorderModeForOpenCv(border_mode));
 
-    return out_image;
+    return absl::StatusOr<ImageFrame>(std::move(out_image));
   }
 };
 

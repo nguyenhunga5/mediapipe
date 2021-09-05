@@ -205,7 +205,7 @@ class GlTextureWarpAffineRunner
           return absl::OkStatus();
         }));
 
-    return gpu_buffer;
+    return absl::StatusOr<std::unique_ptr<GpuBuffer>>(std::move(gpu_buffer));
   }
 
   absl::Status RunInternal(const GlTexture& texture,
@@ -348,7 +348,8 @@ CreateAffineTransformationGlRunner(
   auto runner =
       absl::make_unique<GlTextureWarpAffineRunner>(gl_helper, gpu_origin);
   MP_RETURN_IF_ERROR(runner->Init());
-  return runner;
+  return absl::StatusOr<std::unique_ptr<
+    AffineTransformation::Runner<GpuBuffer, std::unique_ptr<GpuBuffer>>>>(std::move(runner));
 }
 
 }  // namespace mediapipe
